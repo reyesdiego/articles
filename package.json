@@ -1,0 +1,32 @@
+{
+    "name": "articles",
+    "version": "1.0.0",
+    "description": "Articles",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/reyesdiego/articles.git"
+    },
+    "keywords": [],
+    "author": "Diego Reyes",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/reyesdiego/articles/issues"
+    },
+    "homepage": "https://github.com/reyesdiego/articles#readme",
+    "dependencies": {
+        "fastify": "2.0.0",
+        "fastify-compress": "0.8.1",
+        "fastify-cors": "2.1.2",
+        "fastify-mongodb": "1.0.1",
+        "fastify-swagger": "2.3.1",
+        "lint-staged": "8.1.5",
+        "moment": "2.24.0"
+    },
+    "devDependencies": {
+        "prettier": "^1.18.2"
+    }
+}

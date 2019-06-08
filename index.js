@@ -8,12 +8,10 @@ const fastify = require('fastify')({
 });
 const swagger = require('./src/config/swagger');
 
-// Register Swagger
 fastify.register(require('fastify-swagger'), swagger.options);
 
 const start = async () => {
     try {
-        // Import Swagger Options
         fastify
             .register(require('fastify-cors'), {})
             .register(require('fastify-compress'), {global: false})
@@ -21,11 +19,8 @@ const start = async () => {
                 forceClose: true,
                 url: settings.mongo.url
             })
-            .register(require('./src/routes/server'));
-        // .register(require('./src/routes/download'), {prefix: '/download'})
-        // .register(require('./src/routes/report'), {prefix: '/reports'})
-        // .register(require('./src/routes/statistic'), {prefix: '/statistics'})
-        // .register(require('./src/routes/webflow'), {prefix: '/webflow'});
+            .register(require('./src/routes/server'))
+            .register(require('./src/routes/article'), {prefix: '/article'});
 
         await fastify
             .listen(PORT, '::')

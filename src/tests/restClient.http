@@ -1,0 +1,33 @@
+
+
+###
+GET http://localhost:8080/article/5cfad73cb61ccfe53165c9cd
+
+###
+GET http://localhost:8080/article?title=KK
+
+
+###
+POST http://localhost:8080/article
+Content-Type: application/json
+
+{
+    "title":"KK"
+}
+###
+PUT  http://localhost:8080/article
+Content-Type: application/json
+
+{
+    "_id": "5cfadccd2aee52e7e99352aa",
+    "title":"AAAQQ",
+    "created_at": "2006-02-02T23:22:43-03:00"
+}
+
+###
+PATCH  http://localhost:8080/article
+Content-Type: application/json
+
+{
+    "_id": "5cfadccd2aee52e7e99352aa"
+}

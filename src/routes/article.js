@@ -79,8 +79,8 @@ const routes = [
         handler: articleController.articleGetById
     },
     {
-        method: 'GET',
-        url: '/',
+        method: 'POST',
+        url: '/list',
         schema: {
             tags: ['Articles'],
             summary: 'Gets an List of Articles by Title and/or Authors',
@@ -88,39 +88,51 @@ const routes = [
             response: {
                 200: {
                     description: 'Successful response',
-                    type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            _id: {
-                                type: 'string',
-                                description: 'Article Title'
-                            },
-                            ...article
+                    type: 'object',
+                    properties: {
+                        totalCount: {type: 'number'},
+                        data: {
+                            type: 'array',
+                            description: '',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    _id: {
+                                        type: 'string',
+                                        description: 'Article Title'
+                                    },
+                                    ...article
+                                }
+                            }
                         }
                     },
-                    example: [
-                        {
-                            _id: '5bab85296e9a75219ff7d0a3',
-                            title: 'First Article',
-                            short_description: 'This is a Short Description of the First Article',
-                            long_description:
-                                'This is a Long Description of the First Article, his is a Long Description of the First Article, his is a Long Description of the First Article',
-                            createdAt: '2018-09-26T13:10:01.471Z',
-                            updatedAt: '2018-09-26T13:10:01.471Z',
-                            authors: 'Diego Reyes'
-                        },
-                        {
-                            _id: '5bab85296e9a75219ff7d0a3',
-                            title: 'First Article',
-                            short_description: 'This is a Short Description of the First Article',
-                            long_description:
-                                'This is a Long Description of the First Article, his is a Long Description of the First Article, his is a Long Description of the First Article',
-                            createdAt: '2018-09-26T13:10:01.471Z',
-                            updatedAt: '2018-09-26T13:10:01.471Z',
-                            authors: 'Diego Reyes'
-                        }
-                    ]
+                    example: {
+                        totalCount: 34,
+                        data: [
+                            {
+                                _id: '5bab85296e9a75219ff7d0a3',
+                                title: 'First Article',
+                                short_description:
+                                    'This is a Short Description of the First Article',
+                                long_description:
+                                    'This is a Long Description of the First Article, his is a Long Description of the First Article, his is a Long Description of the First Article',
+                                createdAt: '2018-09-26T13:10:01.471Z',
+                                updatedAt: '2018-09-26T13:10:01.471Z',
+                                authors: 'Diego Reyes'
+                            },
+                            {
+                                _id: '5bab85296e9a75219ff7d0a3',
+                                title: 'First Article',
+                                short_description:
+                                    'This is a Short Description of the First Article',
+                                long_description:
+                                    'This is a Long Description of the First Article, his is a Long Description of the First Article, his is a Long Description of the First Article',
+                                createdAt: '2018-09-26T13:10:01.471Z',
+                                updatedAt: '2018-09-26T13:10:01.471Z',
+                                authors: 'Diego Reyes'
+                            }
+                        ]
+                    }
                 }
             }
         },

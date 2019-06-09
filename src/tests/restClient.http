@@ -4,8 +4,13 @@
 GET http://localhost:8080/article/5cfad73cb61ccfe53165c9cd
 
 ###
-GET http://localhost:8080/article?title=KK
+POST http://localhost:8080/article/list
+Content-Type: application/json
 
+{
+    "title":"first",
+    "limit":2
+}
 
 ###
 POST http://localhost:8080/article
@@ -19,8 +24,9 @@ PUT  http://localhost:8080/article
 Content-Type: application/json
 
 {
-    "_id": "5cfadccd2aee52e7e99352aa",
+    "_id": "5cfaed77097b44ef6bdd421b",
     "title":"AAAQQ",
+    "short_description":"Bla bla bla blab alblalb alblab",
     "created_at": "2006-02-02T23:22:43-03:00"
 }
 
@@ -30,4 +36,11 @@ Content-Type: application/json
 
 {
     "_id": "5cfadccd2aee52e7e99352aa"
+}
+
+###
+POST http://localhost:8080/author/list
+Content-Type: application/json
+
+{
 }

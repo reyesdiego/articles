@@ -20,7 +20,8 @@ const start = async () => {
                 url: settings.mongo.url
             })
             .register(require('./src/routes/server'))
-            .register(require('./src/routes/article'), {prefix: '/article'});
+            .register(require('./src/routes/article'), {prefix: '/article'})
+            .register(require('./src/routes/author'), {prefix: '/author'});
 
         await fastify
             .listen(PORT, '::')

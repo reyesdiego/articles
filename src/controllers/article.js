@@ -14,13 +14,20 @@ module.exports.articleGetById = async function(req, res) {
 module.exports.articleGet = async function(req, res) {
     const db = this.mongo.db;
 
-    const title = req.query.title;
+    const filter = {};
+    if (req.body.title) {
+        filter.title = req.body.title;
+    }
     try {
         const p = await db
             .collection('articles')
-            .find({title: title, deleted_at: {$exists: false}})
+            .find({...filter, deleted_at: {$exists: false}})
+            .sort({[req.body.sortField]: req.body.sortOrder === 'descend' ? -1 : 1})
+            .skip((req.body.page - 1) * req.body.results || 0)
+            .limit(req.body.results || 1000)
             .toArray();
-        res.send(p);
+        const count = await db.collection('articles').count({deleted_at: {$exists: false}});
+        res.send({totalCount: count, data: p});
     } catch (err) {
         res.status(500).send(err);
     }

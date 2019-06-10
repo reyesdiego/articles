@@ -4,7 +4,7 @@
     "description": "Articles",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "tap --cov src/tests/*.test.js"
     },
     "repository": {
         "type": "git",
@@ -27,6 +27,9 @@
         "moment": "2.24.0"
     },
     "devDependencies": {
-        "prettier": "^1.18.2"
+        "mongo-clean": "^2.0.0",
+        "mongodb": "^3.2.7",
+        "prettier": "^1.18.2",
+        "tap": "^14.2.2"
     }
 }

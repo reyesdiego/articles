@@ -3,6 +3,7 @@ import {Form, Input, Select, Button} from 'antd';
 import {pathOr} from 'ramda';
 
 import axios from 'axios';
+const {TextArea} = Input;
 
 const {Option} = Select;
 
@@ -34,13 +35,12 @@ class Article extends Component {
         });
     }
     onChange = (key, value) => {
-        console.log(key, value);
         this.setState({entity: {...this.state.entity, [key]: value}});
     };
     handleSubmit = e => {
         e.preventDefault();
         let method = 'post';
-        if (this.props.match.params.id) {
+        if (this.state.entity._id) {
             method = 'put';
         }
         axios({
@@ -48,13 +48,14 @@ class Article extends Component {
             method: method,
             data: {...this.state.entity}
         }).then(data => {
-            console.log(data);
+            this.setState({entity: data.data});
         });
     };
     handleTableChange = (pagination, filters, sorter) => {};
 
     render() {
         const {entity, authors} = this.state;
+        const author = pathOr(undefined, ['authors'], entity);
         return (
             <Form {...formItemLayout}>
                 <Form.Item label="Título" validateStatus="">
@@ -73,12 +74,18 @@ class Article extends Component {
                     />
                 </Form.Item>
 
+                <Form.Item label="Sinópsis" validateStatus="">
+                    <TextArea
+                        value={pathOr('', ['long_description'], entity)}
+                        onChange={e => this.onChange('long_description', e.target.value)}
+                    />
+                </Form.Item>
+
                 <Form.Item label="Autores" hasFeedback validateStatus="">
                     <Select
                         mode="tags"
-                        value={pathOr('', ['authors'], entity).split(',')}
+                        value={author ? author.split(',') : undefined}
                         onChange={e => {
-                            console.log(e);
                             this.onChange('authors', e.join(','));
                         }}
                     >

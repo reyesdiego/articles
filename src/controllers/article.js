@@ -14,18 +14,36 @@ module.exports.articleGetById = async function(req, res) {
 module.exports.articleGet = async function(req, res) {
     const db = this.mongo.db;
 
-    const filter = {};
-    if (req.body.title) {
-        filter.title = req.body.title;
-    }
+    const filter = req.body.filter || {};
+    const populate = {
+        $lookup: {
+            from: 'authors',
+            localField: 'authors',
+            foreignField: '_id',
+            as: 'authors'
+        }
+    };
+    const aggregate = [
+        {$match: {...filter, deleted_at: {$exists: false}}},
+        {
+            $lookup: {
+                from: 'authors',
+                localField: 'authors',
+                foreignField: '_id',
+                as: 'authors'
+            }
+        },
+        {$sort: {[req.body.sortField]: req.body.sortOrder === 'descend' ? -1 : 1}},
+        {$skip: (req.body.page - 1) * req.body.results || 0},
+        {$limit: req.body.results || 1000}
+    ];
+    // aggregate.push(populate);
     try {
         const p = await db
             .collection('articles')
-            .find({...filter, deleted_at: {$exists: false}})
-            .sort({[req.body.sortField]: req.body.sortOrder === 'descend' ? -1 : 1})
-            .skip((req.body.page - 1) * req.body.results || 0)
-            .limit(req.body.results || 1000)
+            .aggregate(aggregate)
             .toArray();
+
         const count = await db.collection('articles').count({deleted_at: {$exists: false}});
         res.send({totalCount: count, data: p});
     } catch (err) {

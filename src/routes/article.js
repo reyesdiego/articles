@@ -30,8 +30,14 @@ const article = {
         description: 'Article Deletion Date'
     },
     authors: {
-        type: 'string',
-        description: 'Article Authors'
+        type: 'array',
+        items: {
+            type: 'object',
+            properties: {
+                _id: {type: 'string'},
+                name: {type: 'string'}
+            }
+        }
     }
 };
 

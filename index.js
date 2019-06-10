@@ -10,7 +10,7 @@ const swagger = require('./src/config/swagger');
 
 fastify.register(require('fastify-swagger'), swagger.options);
 
-const start = async () => {
+const start = callback => {
     try {
         fastify
             .register(require('fastify-cors'), {})
@@ -23,9 +23,12 @@ const start = async () => {
             .register(require('./src/routes/article'), {prefix: '/article'})
             .register(require('./src/routes/author'), {prefix: '/author'});
 
-        await fastify
+        fastify
             .listen(PORT, '::')
-            .then(address => console.log(`server listening on ${address}`))
+            .then(address => {
+                console.log(`server listening on ${address}`);
+                if (callback) callback(null, fastify);
+            })
             .catch(err => {
                 console.log('Error starting server:', err);
                 process.exit(1);
@@ -35,5 +38,7 @@ const start = async () => {
         process.exit(1);
     }
 };
-
-start();
+if (require.main === module) {
+    start();
+}
+module.exports = {start};

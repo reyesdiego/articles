@@ -1,14 +1,13 @@
 
 
 ###
-GET http://localhost:8080/article/5cfad73cb61ccfe53165c9cd
+GET http://localhost:8080/article/5cfd7a39c82fd124064dcc13
 
 ###
 POST http://localhost:8080/article/list
 Content-Type: application/json
 
-{
-    "title":"first",
+{    
     "limit":2
 }
 

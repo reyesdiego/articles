@@ -9,11 +9,26 @@ class Articles extends Component {
         data: [],
         pagination: {defaultPageSize: 5},
         loading: false,
-        searchText: ''
+        searchText: '',
+        authors: []
     };
 
     componentDidMount() {
         this.fetch();
+
+        axios({
+            url: 'http://localhost:8080/author/list',
+            method: 'post',
+            data: {}
+            // type: 'json'
+        })
+            .then(data => {
+                this.setState({authors: data.data.data});
+                console.log(data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     getColumnSearchProps = dataIndex => ({
@@ -53,10 +68,10 @@ class Articles extends Component {
         onFilter: (value, record) => {
             console.log(value);
             // this.fetch({title: value});
-            record[dataIndex]
-                .toString()
-                .toLowerCase()
-                .includes(value.toLowerCase());
+            // record[dataIndex]
+            //     .toString()
+            //     .toLowerCase()
+            //     .includes(value.toLowerCase());
         },
         onFilterDropdownVisibleChange: visible => {
             if (visible) {
@@ -76,6 +91,11 @@ class Articles extends Component {
     handleTableChange = (pagination, filters, sorter) => {
         const pager = {...this.state.pagination};
         pager.current = pagination.current;
+
+        if (filters && filters.title) {
+            filters.title = filters.title[0];
+        }
+
         this.setState({
             pagination: pager
         });
@@ -84,11 +104,12 @@ class Articles extends Component {
             page: pagination.current,
             sortField: sorter.field,
             sortOrder: sorter.order,
-            ...filters
+            filters: {...filters}
         });
     };
+
     fetch = (filters = {}) => {
-        // console.log('params:', params);
+        console.log('params:', filters);
         filters = {filters: {...filters}};
         this.setState({loading: true});
         axios({
@@ -102,7 +123,6 @@ class Articles extends Component {
         })
             .then(data => {
                 const pagination = {...this.state.pagination};
-                // Read total count from server
                 console.log(pagination);
                 pagination.total = data.data.totalCount;
                 this.setState({
@@ -126,6 +146,8 @@ class Articles extends Component {
     };
 
     render() {
+        const {authors} = this.state;
+
         const columns = [
             {
                 title: 'Título',
@@ -138,28 +160,34 @@ class Articles extends Component {
             {
                 title: 'Descripción',
                 dataIndex: 'short_description',
-                // filters: [{text: 'Male', value: 'male'}, {text: 'Female', value: 'female'}],
                 width: '40%'
             },
             {
                 title: 'Authors',
                 key: 'authors',
                 dataIndex: 'authors',
-                render: tags => (
-                    <span>
-                        {tags.map(tag => {
-                            let color = tag.name.length > 5 ? 'blue' : 'green';
-                            if (tag === 'loser') {
-                                color = 'volcano';
-                            }
-                            return (
-                                <Tag color={color} key={tag._id}>
-                                    {tag.name}
-                                </Tag>
-                            );
-                        })}
-                    </span>
-                )
+                filters: authors.map(x => ({text: x.name, value: x._id})),
+                render: tags => {
+                    console.log(tags);
+                    return (
+                        <span>
+                            {tags && tags.length > 0
+                                ? tags.map(tag => {
+                                      console.log(tag);
+                                      let color = tag.name.length > 5 ? 'blue' : 'green';
+                                      if (tag === 'loser') {
+                                          color = 'volcano';
+                                      }
+                                      return (
+                                          <Tag color={color} key={tag._id}>
+                                              {tag.name}
+                                          </Tag>
+                                      );
+                                  })
+                                : null}
+                        </span>
+                    );
+                }
             },
             {
                 title: 'Creado',

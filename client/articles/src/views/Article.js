@@ -27,7 +27,13 @@ class Article extends Component {
     componentDidMount() {
         if (this.props.match.params.id) {
             axios.get(`http://localhost:8080/article/${this.props.match.params.id}`).then(data => {
-                this.setState({entity: data.data});
+                const result = data.data;
+                let author = pathOr(undefined, ['authors'], result);
+                if (author) {
+                    author = author.map(c => c._id);
+                }
+                result.authors = author;
+                this.setState({entity: result});
             });
         }
         axios.post('http://localhost:8080/author/list', {}).then(data => {
@@ -48,14 +54,24 @@ class Article extends Component {
             method: method,
             data: {...this.state.entity}
         }).then(data => {
-            this.setState({entity: data.data});
+            const result = data.data;
+            let author = pathOr(undefined, ['authors'], result);
+            if (author) {
+                author = author.map(c => c._id);
+            }
+            result.authors = author;
+            this.setState({entity: result});
         });
     };
     handleTableChange = (pagination, filters, sorter) => {};
 
     render() {
         const {entity, authors} = this.state;
-        const author = pathOr(undefined, ['authors'], entity);
+        // let author = pathOr(undefined, ['authors'], entity);
+        // if (author) {
+        //     author = author.map(c => c._id);
+        //     console.log('BLA', author, entity);
+        // }
         return (
             <Form {...formItemLayout}>
                 <Form.Item label="Título" validateStatus="">
@@ -84,16 +100,21 @@ class Article extends Component {
                 <Form.Item label="Autores" hasFeedback validateStatus="">
                     <Select
                         mode="tags"
-                        value={author ? author.split(',') : undefined}
+                        value={pathOr('', ['authors'], entity)}
                         onChange={e => {
-                            this.onChange('authors', e.join(','));
+                            console.log(entity);
+                            console.log(e);
+                            this.onChange('authors', e);
                         }}
                     >
-                        {authors.map(author => (
-                            <Option key={author._id} value={author._id}>
-                                {author.name}
-                            </Option>
-                        ))}
+                        {authors.map(author1 => {
+                            console.log(author1);
+                            return (
+                                <Option key={author1._id} value={author1._id}>
+                                    {author1.name}
+                                </Option>
+                            );
+                        })}
                     </Select>
                 </Form.Item>
                 <Form.Item wrapperCol={{span: 12, offset: 5}}>

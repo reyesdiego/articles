@@ -28,16 +28,6 @@ const article = {
         type: 'string',
         format: 'date-time',
         description: 'Article Deletion Date'
-    },
-    authors: {
-        type: 'array',
-        items: {
-            type: 'object',
-            properties: {
-                _id: {type: 'string'},
-                name: {type: 'string'}
-            }
-        }
     }
 };
 
@@ -67,7 +57,17 @@ const routes = [
                             type: 'string',
                             description: 'Article Title'
                         },
-                        ...article
+                        ...article,
+                        authors: {
+                            type: 'array',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    _id: {type: 'string'},
+                                    name: {type: 'string'}
+                                }
+                            }
+                        }
                     },
                     example: {
                         _id: '5bab85296e9a75219ff7d0a3',
@@ -107,7 +107,17 @@ const routes = [
                                         type: 'string',
                                         description: 'Article Title'
                                     },
-                                    ...article
+                                    ...article,
+                                    authors: {
+                                        type: 'array',
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                _id: {type: 'string'},
+                                                name: {type: 'string'}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -209,7 +219,17 @@ const routes = [
                             type: 'string',
                             description: 'Article Title'
                         },
-                        ...article
+                        ...article,
+                        authors: {
+                            type: 'array',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    _id: {type: 'string'},
+                                    name: {type: 'string'}
+                                }
+                            }
+                        }
                     },
                     example: {
                         _id: '5bab85296e9a75219ff7d0a3',

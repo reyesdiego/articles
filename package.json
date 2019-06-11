@@ -4,7 +4,8 @@
     "description": "Articles",
     "main": "index.js",
     "scripts": {
-        "test": "tap --cov src/tests/*.test.js"
+        "test": "tap --cov src/tests/*.test.js",
+        "start": "node index.js"
     },
     "repository": {
         "type": "git",
@@ -27,8 +28,6 @@
         "moment": "2.24.0"
     },
     "devDependencies": {
-        "mongo-clean": "^2.0.0",
-        "mongodb": "^3.2.7",
         "prettier": "^1.18.2",
         "tap": "^14.2.2"
     }

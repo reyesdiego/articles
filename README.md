@@ -1,7 +1,15 @@
 # articles
+
 Articles
 
+### Install
+
+Install with npm:
+
+```
 cd articles/
+```
+
 npm i tap prettier --save-dev
 npm i
 
@@ -12,7 +20,5 @@ cd articles/client/articles
 npm i
 
 npm run start
-
-
 
 Nota: settings.js must be in .gitignore

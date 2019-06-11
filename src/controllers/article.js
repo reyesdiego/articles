@@ -77,6 +77,10 @@ module.exports.articleCreate = async function(req, res) {
     const date = new Date();
     const article = {...req.body, created_at: date, updated_at: date};
 
+    if (article.authors) {
+        article.authors = article.authors.map(x => ObjectId(x));
+    }
+
     try {
         const newArticle = await db.collection('articles').insertOne(article);
         return await db.collection('articles').findOne({_id: new ObjectId(newArticle.insertedId)});

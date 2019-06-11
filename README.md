@@ -4,7 +4,7 @@ Articles
 
 ### Install
 
-Install with npm:
+Install with npm Server:
 
 ```
 cd articles/
@@ -15,9 +15,13 @@ npm run test
 npm run start
 ```
 
+Install with npm Client:
+
+```
 cd articles/client/articles
 npm i
 
 npm run start
+```
 
 Nota: settings.js must be in .gitignore

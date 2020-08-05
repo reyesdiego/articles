@@ -19,7 +19,7 @@
     },
     "homepage": "https://github.com/reyesdiego/articles#readme",
     "dependencies": {
-        "fastify": "2.0.0",
+        "fastify": "2.15.1",
         "fastify-compress": "0.8.1",
         "fastify-cors": "2.1.2",
         "fastify-mongodb": "1.0.1",
